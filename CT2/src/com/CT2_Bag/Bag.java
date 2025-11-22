@@ -190,11 +190,6 @@ public class Bag<T> implements Iterable<T> {
         // Declare and initialize size variable to 0
         int bagSize = 0;
 
-        // Check if Bag is empty
-        if (isEmpty()) {
-            return bagSize;
-        }
-
         // Create temporary node and set it equal to the head
         Node<T> currentItem = head;
 

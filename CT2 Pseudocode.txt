@@ -145,11 +145,6 @@ CLASS Bag<T> IMPLEMENTS Iterable<T>
         // Declare and initialize size variable to 0
         DECLARE int bagSize = 0
 
-        // Check if Bag is empty
-        IF (CALL isEmpty())
-            RETURN bagSize;
-        END IF
-
         // Create temporary node and set it equal to the head
         DECLARE Node<T> currentItem = head
 
@@ -165,6 +160,11 @@ CLASS Bag<T> IMPLEMENTS Iterable<T>
         // Return the size of the bag
         RETURN bagSize
     END METHOD
+
+    // Method to merge two bags
+    METHOD merge(Bag<T> otherBag)
+        if
+
 
     // Override iterator method
     OVERRIDE METHOD Iterator<T> iterator()
