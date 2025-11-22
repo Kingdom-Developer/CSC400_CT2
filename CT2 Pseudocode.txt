@@ -1,0 +1,299 @@
+// Bag class that implements Iterable interface
+
+CLASS Bag<T> IMPLEMENTS Iterable<T>
+    // Declare private attributes
+    DECLARE PRIVATE Node<T> head
+    DECLARE PRIVATE int numItems
+
+    // Getter method for numItems
+    METHOD int getNumItems()
+        RETURN numItems
+    END METHOD
+
+    // Getter method for head
+    METHOD T getHead()
+        RETURN head
+    END METHOD
+
+    // Method to check if Bag is empty
+    METHOD boolean isEmpty()
+        // Return boolean value based on the number of items
+        RETURN numItems EQUALS 0
+    END METHOD
+
+    // Method to add item to Bag
+    METHOD add(T item)
+        // Check if item to add is null
+        IF (item EQUALS NULL)
+            THROW EXCEPTION IllegalArgumentException WITH MESSAGE "Item to add cannot be null."
+        END IF
+
+        // Store head to tempNode
+        DECLARE Node<T> tempNode = head
+    
+        // Create a new empty node to be stored as the head
+        head = NEW Node<T>(item)
+
+        // Set the nextItem to be the original firstNode
+        CALL head.setNextItem(tempNode)
+
+	// Increment numItems
+        INCREMENT numItems
+    END Method
+
+    // Method to remove item from Bag
+    METHOD remove(T item)
+        // Check if item to remove is null
+        IF (item EQUALS NULL)
+            THROW EXCEPTION IllegalArgumentException WITH MESSAGE "Item to remove cannot be null."
+        END IF
+
+        // Create temporary node and set it equal to the head
+        DECLARE Node<T> currentItem = head;
+    
+        // Check if bag is empty
+        IF (CALL isEmpty())
+            RETURN
+        END IF
+
+        // Handle situation if the head is the item to be removed
+        IF (CALL head.getItem() EQUALS item)
+            head = CALL head.getNextItem()
+            DECREMENT numItems
+            RETURN
+        END IF
+
+        // Traverse through the linked list
+        WHILE (CALL currentItem.getNextItem() NOT EQUALS NULL)
+
+            // Check if item matches currentItem's next item
+            IF (CALL currentItem.getNextItem() EQUALS item)
+
+                // Remove the currentItem's next item
+		CALL currentItem.setNextItem(CALL currentItem.getNextItem().getNextItem())
+
+                // Decrement the numItems and return
+                DECREMENT numItems
+                RETURN
+            END IF
+   
+            // No item was removed, continue through the linked list
+            currentItem = CALL currentItem.getNextItem()
+        END WHILE
+    END METHOD    
+    
+    // Method to check if bag contains item
+    METHOD boolean contains(T item)
+        // Check if item to search for is null
+        IF (item EQUALS NULL)
+            THROW EXCEPTION IllegalArgumentException WITH MESSAGE "Item to search for cannot be null."
+        END IF
+
+        // Create temporary node and set it equal to the head
+        DECLARE Node<T> currentItem = head
+
+        // Traverse through list to check if it contains item
+        WHILE (currentItem NOT EQUALS NULL)
+            
+            // Check if currentItem equals the item being searched for
+            IF (CALL currentitem.getItem() EQUALS item)
+                RETURN TRUE
+            END IF
+
+            // No match, continue through the linked list
+            currentItem = CALL currentItem.getNextItem()
+        END WHILE
+    
+        // Return false to indicate no match in the linked list
+        RETURN FALSE
+    END METHOD
+
+    // Method to return number of occurrences for given item
+    METHOD int count(T item)
+	// Check if item to count occurrences of is null
+        IF (item EQUALS NULL)
+            THROW EXCEPTION IllegalArgumentException WITH MESSAGE "Item to count occurrences of cannot be null."
+        END IF
+
+        // Declare and initialize occurrences variable
+        DECLARE int occurrences = 0
+
+        // Create temporary node and set it equal to the head
+        DECLARE Node<T> currentItem = head
+
+        // Traverse through list to check if it contains item
+        WHILE (currentItem NOT EQUALS NULL)
+
+            // Check if currentItem equals the item being searched for
+            IF (CALL currentItem.getItem() EQUALS item)
+                
+                // Increment occurrences
+                INCREMENT occurrences
+            END IF
+
+            // No match, continue through the linked list
+            currentItem = CALL currentItem.getNextItem()
+
+        END WHILE
+
+        // Return total occurrences of item
+        RETURN occurrences
+    END METHOD
+
+    // Method to count number of items in the Bag
+    METHOD int size()
+        // Declare and initialize size variable to 0
+        DECLARE int bagSize = 0
+
+        // Check if Bag is empty
+        IF (CALL isEmpty())
+            RETURN bagSize;
+        END IF
+
+        // Create temporary node and set it equal to the head
+        DECLARE Node<T> currentItem = head
+
+        // Traverse through list to keep count of total items in bag
+        WHILE (currentItem NOT EQUALS NULL)
+            // Increment bag size by one
+            INCREMENT bagSize
+    
+            // Continue to next item in bag
+            currentItem = CALL currentItem.getNextItem()
+        END WHILE
+
+        // Return the size of the bag
+        RETURN bagSize
+    END METHOD
+
+    // Override iterator method
+    OVERRIDE METHOD Iterator<T> iterator()
+        // Return new BagIterator starting at the head
+        RETURN NEW BagIterator(head)
+    END METHOD
+
+    // Inner class to create BagIterator
+    INNER CLASS BagIterator IMPLEMENTS Iterator<T>
+        
+        // Declare private attribute
+        DECLARE PRIVATE Node<T> currentItem
+
+        // Parameterized constructor
+        CONSTRUCTOR BagIterator(Node<T> head)      
+            // Set currentItem to head of linked list
+            currentItem = head
+        END CONSTRUCTOR
+
+        // Override hasNext method
+        OVERRIDE METHOD Boolean hasNext()
+            // Check if currentItem is the tail
+            RETURN currentItem NOT EQUALS NULL
+        END METHOD
+
+        // Override next method
+        OVERRIDE METHOD T next()
+            // Check if there is next item
+            IF (NOT CALL hasNext())
+                // If no next item, throw exception
+                THROW EXCEPTION NoSuchElementException WITH MESSAGE "There are no more items left."
+            END IF
+
+            // Store current item to temporary variable
+            DECLARE T returnItem = CALL currentItem.getItem()
+            
+            // Set currentItem to the next item of the linked list
+            currentItem = CALL currentItem.getNextItem()
+
+            // Return the item that was stored in temporary variable
+            RETURN returnItem
+        END METHOD
+    END CLASS
+END CLASS
+
+
+// Node class
+CLASS Node<T>
+
+    // Declare private attributes
+    DECLARE PRIVATE T item
+    DECALRE PRIVATE Node<T> nextItem
+
+    // Parameterized constructor
+    CONSTRUCTOR Node(T item)
+        THIS.item = item
+        THIS.nextItem = NULL
+    END CONSTRUCTOR
+
+    // Getter method for item
+    METHOD T getItem()
+        RETURN THIS.item
+    END METHOD
+ 
+    // Getter method for nextItem
+    METHOD Node<T> getNextItem()
+        RETURN nextItem
+    END METHOD
+
+    // Setter method for nextItem
+    METHOD setNextItem(Node<T> nextItem)
+        THIS.nextItem = nextItem
+    END METHOD
+END CLASS
+
+
+// Main class
+CLASS Main
+    MAIN METHOD
+        // Create an instance of the 'Bag' class
+        DECLARE Bag<Integer> testBag = NEW Bag<Integer>()
+        
+        // Add several elements to the bag, including duplicates
+        CALL testBag.add(10)
+        CALL testBag.add(40)
+        CALL testBag.add(33)
+        CALL testBag.add(15)
+        CALL testBag.add(40)
+        CALL testBag.add(33)
+        CALL testBag.add(4)
+
+        // Print the bag contents
+        OUTPUT "Items: "
+
+        // Iterate through bag and print each item
+        FOR each item IN testbag
+            OUTPUT item + " "
+        END FOR
+        OUTPUT NEWLINE
+
+        // Test the 'contains' method for a few elements
+        OUTPUT "Does the bag contain 15? " + CALL testBag.contains(15)
+        OUTPUT "Does the bag contain 4? " + CALL testBag.contains(4)
+        OUTPUT "Does the bag contain 7? " + CALL testBag.contains(7)
+        OUTPUT "Does the bag contain 33? " + CALL testBag.contains(33)
+        OUTPUT "Does the bag contain 1? " + CALL testBag.contains(1)
+
+        // Test the 'count' method for a few elements
+        OUTPUT "Number 10 appears " + CALL testBag.count(10) + " times."
+        OUTPUT "Number 40 appears " + CALL testBag.count(40) + " times."
+        OUTPUT "Number 1 appears " + CALL testBag.count(1) + " times."
+
+        // Remove an element from the bag
+        CALL testBag.remove(10)
+        CALL testBag.remove(199); // Test removal of item that does not exist in the linked list
+
+        // Print the bag contents again
+        OUTPUT "Items: "
+
+        // Iterate through bag and print each item
+        FOR each item IN testbag
+            OUTPUT item + " "
+        END FOR
+        OUTPUT NEWLINE
+
+        // Test the 'contains' method for the removed element
+        OUTPUT "Does the bag contain the removed value of 10? " + CALL testBag.contains(10)
+
+        // Test the 'count' method for the removed element
+        OUTPUT "The removed value of 10 appears " + CALL testBag.count(10) + " times now."
+    END METHOD
+END CLASS

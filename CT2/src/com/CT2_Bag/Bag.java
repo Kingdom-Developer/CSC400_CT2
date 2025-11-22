@@ -49,8 +49,14 @@ public class Bag<T> implements Iterable<T> {
     /**
      * Method to add item to Bag
      * @param item to add
+     * @throws IllegalArgumentException if item to add is null
      */
-    public void add(T item) {
+    public void add(T item) throws IllegalArgumentException {
+        // Check if item to add is null
+        if (item == null) {
+            throw new IllegalArgumentException("Item to add cannot be null.");
+        }
+
         // Store head to tempNode
         Node<T> tempNode = head;
 
@@ -67,8 +73,14 @@ public class Bag<T> implements Iterable<T> {
     /**
      * Method to remove item from Bag
      * @param item to remove
+     * @throws IllegalArgumentException if item to remove is null
      */
-    public void remove(T item) {
+    public void remove(T item) throws IllegalArgumentException {
+        // Check if item to remove is null
+        if (item == null) {
+            throw new IllegalArgumentException("Item to remove cannot be null.");
+        }
+
         // Create temporary node and set it equal to the head
         Node<T> currentItem = head;
 
@@ -104,11 +116,17 @@ public class Bag<T> implements Iterable<T> {
     }
 
     /**
-     * Method to check if bag contains item
-     * @param item to check for
+     * Method to check if Bag contains item
+     * @param item the item to search for
+     * @throws IllegalArgumentException if item searched for is null
      * @return boolean value of whether Bag contains the item
      */
-    public boolean contains(T item) {
+    public boolean contains(T item) throws IllegalArgumentException {
+        // Check if item searched for is null
+        if (item == null) {
+            throw new IllegalArgumentException("Item to search for cannot be null.");
+        }
+
         // Create temporary node and set it equal to the head
         Node<T> currentItem = head;
 
@@ -131,9 +149,15 @@ public class Bag<T> implements Iterable<T> {
     /**
      * Method to return number of occurrences for given item
      * @param item to check occurrences of
+     * @throws IllegalArgumentException if item to count occurrences of is null
      * @return number of occurrences
      */
-    public int count(T item) {
+    public int count(T item) throws IllegalArgumentException {
+        // Check if item to count occurrences of is null
+        if (item == null) {
+            throw new IllegalArgumentException("Item to count occurrences of cannot be null.");
+        }
+
         // Declare and initialize occurrences variable
         int occurrences = 0;
 
@@ -156,6 +180,35 @@ public class Bag<T> implements Iterable<T> {
 
         // Return total occurrences of item
         return occurrences;
+    }
+
+    /**
+     * Method to count number of items in the Bag
+     * @return size of Bag including duplicates
+     */
+    public int size() {
+        // Declare and initialize size variable to 0
+        int bagSize = 0;
+
+        // Check if Bag is empty
+        if (isEmpty()) {
+            return bagSize;
+        }
+
+        // Create temporary node and set it equal to the head
+        Node<T> currentItem = head;
+
+        // Traverse through list to keep count of total items in Bag
+        while (currentItem != null) {
+            // Increment bagSize by one
+            bagSize ++;
+
+            // Continue to next item in bag
+            currentItem = currentItem.getNextItem();
+        }
+
+        // Return the size of the bag
+        return bagSize;
     }
 
 
@@ -197,15 +250,16 @@ public class Bag<T> implements Iterable<T> {
         }
 
         /**
-         * Override next method
+         * Override next
+         * @throws NoSuchElementException if there are no more items
          * @return next item
          */
         @Override
-        public T next() {
+        public T next() throws NoSuchElementException {
             // Check if there is next item
             if (!hasNext()) {
                 // If no next item, throw exception
-                throw new NoSuchElementException();
+                throw new NoSuchElementException("There are no more items left.");
             }
 
             // Store current item to temporary variable
