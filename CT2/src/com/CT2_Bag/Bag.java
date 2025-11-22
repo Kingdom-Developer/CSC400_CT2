@@ -230,6 +230,31 @@ public class Bag<T> implements Iterable<T> {
         }
     }
 
+    /**
+     * Method to return new bag with distinct items
+     * @return new Bag with distinct items
+     */
+    public Bag<T> distinct() {
+        // Create temporary node and set it equal to the head
+        Node<T> currentItem = head;
+
+        // Create new Bag object to store distinct values
+        Bag<T> distinctBag = new Bag<T>();
+
+        // Traverse through list and add distinct values to distinctBag
+        while (currentItem != null) {
+            // Check if currentItem is already in distinctBag, if not add it
+            if (!distinctBag.contains(currentItem.getItem())) {
+                distinctBag.add(currentItem.getItem());
+            }
+
+            // Continue to next item in original Bag
+            currentItem = currentItem.getNextItem();
+        }
+
+        // Return new bag of distinct items
+        return distinctBag;
+    }
 
     /**
      * Override iterator method

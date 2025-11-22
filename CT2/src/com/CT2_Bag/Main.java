@@ -67,6 +67,14 @@ public class Main {
         }
         System.out.println();
 
+        // Iterate through bag and print each item
+        for (Integer item : testBag.distinct()) {
+            System.out.print(item + " ");
+        }
+        System.out.println();
+
+
+
         // Test the 'contains' method for the removed element
         System.out.println("Does the bag contain the removed value of 10? " + testBag.contains(10));
 
