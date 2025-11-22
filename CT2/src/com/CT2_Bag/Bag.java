@@ -206,6 +206,30 @@ public class Bag<T> implements Iterable<T> {
         return bagSize;
     }
 
+    /**
+     * Method to merge two bags
+     * @param otherBag The other Bag item to merge with
+     * @throws IllegalArgumentException if otherBag is null or doesn't match the item type
+     */
+    public void merge(Bag<T> otherBag) throws IllegalArgumentException {
+        // Check if otherBag is null
+        if (otherBag == null) {
+            throw new IllegalArgumentException("Cannot merge with a Bag that is null.");
+        }
+
+        // Create temporary node and set it equal to the head of otherBag
+        Node<T> currentItem = otherBag.getHead();
+
+        // Traverse through otherBag and add each item to this Bag
+        while (currentItem != null) {
+            // Add item from otherBag to this Bag
+            this.add(currentItem.getItem());
+
+            // Continue to next item in otherBag
+            currentItem = currentItem.getNextItem();
+        }
+    }
+
 
     /**
      * Override iterator method

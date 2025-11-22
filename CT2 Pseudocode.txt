@@ -153,7 +153,7 @@ CLASS Bag<T> IMPLEMENTS Iterable<T>
             // Increment bag size by one
             INCREMENT bagSize
     
-            // Continue to next item in bag
+            // Continue to next item in Bag
             currentItem = CALL currentItem.getNextItem()
         END WHILE
 
@@ -163,7 +163,24 @@ CLASS Bag<T> IMPLEMENTS Iterable<T>
 
     // Method to merge two bags
     METHOD merge(Bag<T> otherBag)
-        if
+        // Check if otherBag is null
+        IF (otherBag EQUALS NULL)
+            THROW EXCEPTION IllegalArgumentException WITH MESSAGE "Cannot merge with a Bag that is null."
+        END IF
+      
+        // Create temporary node and set it equal to the head of otherBag
+        DECLARE Node<T> currentItem = CALL otherBag.getHead()
+
+        // Traverse through otherBag and add each item to this Bag
+        WHILE (currentItem NOT EQUALS NULL)
+            // Add item from otherBag to this Bag
+            CALL THIS.add(CALL currentItem.getItem())
+
+            // Continue to next item in otherBag
+            currentItem = CALL currentItem.getNextItem()
+        END WHILE
+    END METHOD
+        
 
 
     // Override iterator method

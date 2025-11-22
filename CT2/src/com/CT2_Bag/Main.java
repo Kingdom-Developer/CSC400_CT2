@@ -45,12 +45,17 @@ public class Main {
 
 
         Bag<Integer> testBag2 = new Bag<Integer>();
+        testBag2.add(40);
+        testBag2.add(33);
+        testBag2.add(4);
         System.out.println("Bag size is: " + testBag2.size());
         System.out.println("Bag size is: " + testBag.size());
 
         // Remove an element from the bag
         testBag.remove(10);
         testBag.remove(199); // Test removal of item that does not exist in the linked list
+
+        testBag.merge(testBag2);
 
 
         // Print the bag contents again
