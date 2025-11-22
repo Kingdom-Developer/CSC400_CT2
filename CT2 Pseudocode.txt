@@ -180,8 +180,29 @@ CLASS Bag<T> IMPLEMENTS Iterable<T>
             currentItem = CALL currentItem.getNextItem()
         END WHILE
     END METHOD
-        
 
+    // Method to return new bag with distinct items
+    METHOD Bag<T> distinct()
+        // Create temporary node and set it equal to the head
+        DECLARE Node<T> currentItem = head
+
+        // Create new Bag object to store distinct values
+        DECLARE Bag<T> distinctBag = NEW Bag<T>()
+        
+        // Traverse through list and add distinct values to distinctBag
+        WHILE (currentItem NOT EQUALS NULL)
+            // Check if currentItem is already in distinctBag, if not add it
+            IF (NOT CALL distinctBag.contains(CALL currentItem.getItem()))
+                CALL distinctBag.add(CALL currentItem.getItem())
+            END IF
+            
+            // Continue to next item in original Bag
+            currentItem = CALL currentItem.getNextItem()
+        END WHILE
+
+        // Return new bag of distinct items
+        RETURN distinctBag
+    END METHOD
 
     // Override iterator method
     OVERRIDE METHOD Iterator<T> iterator()
@@ -261,56 +282,43 @@ END CLASS
 // Main class
 CLASS Main
     MAIN METHOD
-        // Create an instance of the 'Bag' class
-        DECLARE Bag<Integer> testBag = NEW Bag<Integer>()
+        // Create two instances of the "Bag" class
+        DECLARE Bag<Integer> testBag1 = NEW Bag<Integer>()
+        DECLARE Bag<Integer> testBag2 = NEW Bag<Integer>()
         
-        // Add several elements to the bag, including duplicates
+        // Add items to testBag1, including duplicates
+        CALL testBag.add(10)
+        CALL testBag.add(20)
         CALL testBag.add(10)
         CALL testBag.add(40)
-        CALL testBag.add(33)
-        CALL testBag.add(15)
-        CALL testBag.add(40)
-        CALL testBag.add(33)
-        CALL testBag.add(4)
 
-        // Print the bag contents
-        OUTPUT "Items: "
+        // Add items to testBag2, including duplicates
+        CALL testBag.add(5)
+        CALL testBag.add(20)
+        CALL testBag.add(20)
 
-        // Iterate through bag and print each item
+        // Print the size of each bag using the "size" method
+        OUTPUT "The size of testBag1 is: " + CALL testBag1.size() + NEWLINE
+        OUTPUT "The size of testBag2 is: " + CALL testBag2.size() + NEWLINE
+
+        // Merge the two bags together using the "merge" method
+        CALL testBag1.merge(testBag2)
+
+        // Print the merged bag contents
+        OUTPUT "Items of the merged bag: "
         FOR each item IN testbag
-            OUTPUT item + " "
-        END FOR
-        OUTPUT NEWLINE
+            OUTPUT item + " "
+        END FOR
+        OUTPUT NEWLINE
 
-        // Test the 'contains' method for a few elements
-        OUTPUT "Does the bag contain 15? " + CALL testBag.contains(15)
-        OUTPUT "Does the bag contain 4? " + CALL testBag.contains(4)
-        OUTPUT "Does the bag contain 7? " + CALL testBag.contains(7)
-        OUTPUT "Does the bag contain 33? " + CALL testBag.contains(33)
-        OUTPUT "Does the bag contain 1? " + CALL testBag.contains(1)
+        // Create a new bag containing only the distinct elements using the "distinct" method
+        DECLARE Bag<Integer> distinctBag = CALL testBag1.distinct()
 
-        // Test the 'count' method for a few elements
-        OUTPUT "Number 10 appears " + CALL testBag.count(10) + " times."
-        OUTPUT "Number 40 appears " + CALL testBag.count(40) + " times."
-        OUTPUT "Number 1 appears " + CALL testBag.count(1) + " times."
-
-        // Remove an element from the bag
-        CALL testBag.remove(10)
-        CALL testBag.remove(199); // Test removal of item that does not exist in the linked list
-
-        // Print the bag contents again
-        OUTPUT "Items: "
-
-        // Iterate through bag and print each item
-        FOR each item IN testbag
-            OUTPUT item + " "
-        END FOR
-        OUTPUT NEWLINE
-
-        // Test the 'contains' method for the removed element
-        OUTPUT "Does the bag contain the removed value of 10? " + CALL testBag.contains(10)
-
-        // Test the 'count' method for the removed element
-        OUTPUT "The removed value of 10 appears " + CALL testBag.count(10) + " times now."
+        // Print the distinct bag contents
+        OUTPUT "Items of the distinct bag: "
+        FOR each item IN distinctBag
+            OUTPUT item + " "
+        END FOR
+        OUTPUT NEWLINE
     END METHOD
 END CLASS
