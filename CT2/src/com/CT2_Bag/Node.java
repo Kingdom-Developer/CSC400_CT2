@@ -12,7 +12,7 @@ public class Node<T> {
 
     /**
      * Parameterized constructor for node
-     * @param item to be stored in node
+     * @param item item to be stored as node's data
      */
     public Node(T item) {
         this.item = item;
@@ -21,7 +21,7 @@ public class Node<T> {
 
     /**
      * Getter method for item
-     * @return item from node
+     * @return the data of the node
      */
     public T getItem() {
         return this.item;
@@ -37,10 +37,11 @@ public class Node<T> {
 
     /**
      * Setter method for nextItem
-     * @param nextItem to be pointed to
+     * @param nextItem the next item to be pointed to by this node
      */
     public void setNextItem(Node<T> nextItem) {
         this.nextItem = nextItem;
     }
 }
+
 

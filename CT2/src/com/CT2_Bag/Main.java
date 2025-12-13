@@ -8,6 +8,7 @@ package com.CT2_Bag;
 public class Main {
     /**
      * Main method that creates Bag data structure and calls on its methods
+     * @param args user arguments (not used)
      */
     public static void main(String[] args) {
         // Create two instances of the "Bag" class

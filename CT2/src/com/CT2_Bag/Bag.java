@@ -6,7 +6,6 @@ import java.util.NoSuchElementException;
 /**
  * Bag class that implements Iterable interface
  * @author Nolan Hill
- * @param <T>
  */
 public class Bag<T> implements Iterable<T> {
     // Declare private attributes
@@ -15,7 +14,7 @@ public class Bag<T> implements Iterable<T> {
 
     /**
      * Getter method for numItems
-     * @return numItems in Bag
+     * @return the total number of items in bag
      */
      public int getNumItems() {
         return numItems;
@@ -23,7 +22,7 @@ public class Bag<T> implements Iterable<T> {
 
     /**
      * Getter method for head
-     * @return head node
+     * @return the head node of the bag
      */
     public Node<T> getHead() {
         return head;
@@ -39,7 +38,7 @@ public class Bag<T> implements Iterable<T> {
 
     /**
      * Method to check if Bag is empty
-     * @return boolean value of whether bag is empty
+     * @return true if bag is empty or false if not empty
      */
     public boolean isEmpty() {
         // Return boolean value based on the number of items
@@ -48,7 +47,7 @@ public class Bag<T> implements Iterable<T> {
 
     /**
      * Method to add item to Bag
-     * @param item to add
+     * @param item the item to be added to the bag
      * @throws IllegalArgumentException if item to add is null
      */
     public void add(T item) throws IllegalArgumentException {
@@ -72,7 +71,7 @@ public class Bag<T> implements Iterable<T> {
 
     /**
      * Method to remove item from Bag
-     * @param item to remove
+     * @param item the item that caller is trying to remove
      * @throws IllegalArgumentException if item to remove is null
      */
     public void remove(T item) throws IllegalArgumentException {
@@ -117,9 +116,9 @@ public class Bag<T> implements Iterable<T> {
 
     /**
      * Method to check if Bag contains item
-     * @param item the item to search for
+     * @param item the item that the caller is searching for
      * @throws IllegalArgumentException if item searched for is null
-     * @return boolean value of whether Bag contains the item
+     * @return true if bag contains item or false if it does not
      */
     public boolean contains(T item) throws IllegalArgumentException {
         // Check if item searched for is null
@@ -148,9 +147,9 @@ public class Bag<T> implements Iterable<T> {
 
     /**
      * Method to return number of occurrences for given item
-     * @param item to check occurrences of
+     * @param item the item that caller is checking the number of occurrences of
      * @throws IllegalArgumentException if item to count occurrences of is null
-     * @return number of occurrences
+     * @return the number times an items occurs in bag
      */
     public int count(T item) throws IllegalArgumentException {
         // Check if item to count occurrences of is null
@@ -184,7 +183,7 @@ public class Bag<T> implements Iterable<T> {
 
     /**
      * Method to count number of items in the Bag
-     * @return size of Bag including duplicates
+     * @return the number of items in the bag
      */
     public int size() {
         // Declare and initialize size variable to 0
@@ -285,7 +284,7 @@ public class Bag<T> implements Iterable<T> {
 
         /**
          * Override hasNext method
-         * @return boolean value of whether there is another item
+         * @return true if there is a next item or false if next item is null
          */
         @Override
         public boolean hasNext() {
@@ -296,7 +295,7 @@ public class Bag<T> implements Iterable<T> {
         /**
          * Override next
          * @throws NoSuchElementException if there are no more items
-         * @return next item
+         * @return next item of the iterator
          */
         @Override
         public T next() throws NoSuchElementException {
